@@ -4,10 +4,14 @@ const app = express();
 
 import fetch from "node-fetch";
 
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv"; // For security reasons
+// dotenv.config();
 
-const OW_API_KEY = process.env.API_KEY;
+// const OW_API_KEY = process.env.API_KEY;
+
+import {keys}from "./sources/keys.js";
+
+const OW_API_KEY  = keys.API_KEY;
 
 // Body Parser MiddleWare
 app.use(express.json());
@@ -19,6 +23,11 @@ app.get("/", (req, res) => res.send("Hello from backend to frontend!"));
 
 //Sets post route
 
+const getWeather = async () => {
+  const response = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OW_API_KEY}`
+  );
+}
 app.post("/weather", async (req, res) => {
   const city = req.body.city;
   if (!city) {
